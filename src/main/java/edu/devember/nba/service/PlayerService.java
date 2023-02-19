@@ -2,6 +2,7 @@ package edu.devember.nba.service;
 
 import edu.devember.nba.model.Player;
 import edu.devember.nba.repository.PlayerRepository;
+import edu.devember.nba.util.PlayerNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +25,6 @@ public class PlayerService {
 
     public Player findById(int id) {
         Optional<Player> optionalPlayer = playerRepository.findById(id);
-        return optionalPlayer.orElse(null);
+        return optionalPlayer.orElseThrow(PlayerNotFoundException::new);
     }
 }

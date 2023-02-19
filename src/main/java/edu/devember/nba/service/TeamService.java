@@ -2,6 +2,7 @@ package edu.devember.nba.service;
 
 import edu.devember.nba.model.Team;
 import edu.devember.nba.repository.TeamRepository;
+import edu.devember.nba.util.TeamNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +25,6 @@ public class TeamService {
 
     public Team findById(int id) {
         Optional<Team> optionalTeam = teamRepository.findById(id);
-        return optionalTeam.orElse(null);
+        return optionalTeam.orElseThrow(TeamNotFoundException::new);
     }
 }

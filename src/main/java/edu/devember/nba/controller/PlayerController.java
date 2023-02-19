@@ -28,4 +28,5 @@ public class PlayerController {
     public Player getPlayer(@PathVariable("id") int id) {
         return playerService.findById(id);
     }
+
 }
