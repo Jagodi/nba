@@ -26,6 +26,23 @@ public class TeamController {
         return teamService.findById(id);
     }
 
+    @PostMapping
+    public Team addTeam(@RequestBody Team theTeam) {
 
+        theTeam.setId(0);
+        teamService.save(theTeam);
+        return theTeam;
+    }
+
+    @PutMapping
+    public Team updateTeam(@RequestBody Team theTeam) {
+        return teamService.save(theTeam);
+    }
+
+    @DeleteMapping("/{id}")
+    public String deleteTeam(@PathVariable("id") int theId) {
+        teamService.delete(theId);
+        return "Deleted team with id - " + theId;
+    }
 
 }

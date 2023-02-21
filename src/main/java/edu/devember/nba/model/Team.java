@@ -39,4 +39,14 @@ public class Team {
     @JsonManagedReference
     private List<Player> players = new ArrayList<>();
 
+    public void addPlayers(Player thePlayer) {
+        players.add(thePlayer);
+        thePlayer.setTeam(this);
+    }
+
+    public void removePlayer(Player thePlayer) {
+        players.remove(thePlayer);
+        thePlayer.setTeam(null);
+    }
+
 }

@@ -23,8 +23,24 @@ public class TeamService {
         return teamRepository.findAll();
     }
 
-    public Team findById(int id) {
-        Optional<Team> optionalTeam = teamRepository.findById(id);
+    public Team findById(int theId) {
+        Optional<Team> optionalTeam = teamRepository.findById(theId);
         return optionalTeam.orElseThrow(TeamNotFoundException::new);
     }
+
+    @Transactional
+    public Team save(Team theTeam) {
+        return teamRepository.save(theTeam);
+    }
+
+    @Transactional
+    public void delete(int theId) {
+        Team team = findById(theId);
+        teamRepository.delete(team);
+    }
+
+    public boolean existsById(int theId) {
+        return teamRepository.existsById(theId);
+    }
+
 }

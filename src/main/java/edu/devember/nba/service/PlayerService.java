@@ -23,8 +23,23 @@ public class PlayerService {
         return playerRepository.findAll();
     }
 
-    public Player findById(int id) {
-        Optional<Player> optionalPlayer = playerRepository.findById(id);
+    public Player findById(int theId) {
+        Optional<Player> optionalPlayer = playerRepository.findById(theId);
         return optionalPlayer.orElseThrow(PlayerNotFoundException::new);
+    }
+
+    @Transactional
+    public Player save(Player thePlayer) {
+        return playerRepository.save(thePlayer);
+    }
+
+    @Transactional
+    public void delete(int theId) {
+        Player player = findById(theId);
+        playerRepository.delete(player);
+    }
+
+    public List<Player> findByTeamId(int theId) {
+        return playerRepository.findByTeamId(theId);
     }
 }
