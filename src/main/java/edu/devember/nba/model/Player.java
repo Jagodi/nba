@@ -36,7 +36,7 @@ public class Player {
     @Temporal(TemporalType.DATE)
     private LocalDate dateOfBirth;
 
-    @ManyToOne (fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "team_id")
     @JsonBackReference
     private Team team;

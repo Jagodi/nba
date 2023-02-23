@@ -19,11 +19,13 @@ public class TeamService {
         this.teamRepository = teamRepository;
     }
 
-    public List<Team> findAll() {
-        return teamRepository.findAll();
+    public List<Team> findAllTeams() {
+        List<Team> team = teamRepository.findAll();
+        if (team.isEmpty()) throw new TeamNotFoundException();
+        return team;
     }
 
-    public Team findById(int theId) {
+    public Team findTeamById(int theId) {
         Optional<Team> optionalTeam = teamRepository.findById(theId);
         return optionalTeam.orElseThrow(TeamNotFoundException::new);
     }
@@ -35,12 +37,18 @@ public class TeamService {
 
     @Transactional
     public void delete(int theId) {
-        Team team = findById(theId);
+        Team team = findTeamById(theId);
         teamRepository.delete(team);
     }
 
-    public boolean existsById(int theId) {
-        return teamRepository.existsById(theId);
+    public boolean existsById(int teamId) {
+        boolean isTeamExist = teamRepository.existsById(teamId);
+        if (!isTeamExist) throw new TeamNotFoundException();
+        return teamRepository.existsById(teamId);
+    }
+
+    public Team getReferenceById(int teamId) {
+        return teamRepository.getReferenceById(teamId);
     }
 
 }
