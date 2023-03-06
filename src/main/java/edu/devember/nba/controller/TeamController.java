@@ -98,8 +98,8 @@ public class TeamController {
     }
 
     @PostMapping("/{teamId}/players")
-    public Player addNewPlayerToTeam(@PathVariable("teamId") int theId, @RequestBody Player thePlayer) {
-        Team team = teamService.findTeamById(theId);
+    public Player addNewPlayerToTeam(@PathVariable("teamId") int teamId, @RequestBody Player thePlayer) {
+        Team team = teamService.findTeamById(teamId);
         team.addPlayers(thePlayer);
         return playerService.save(thePlayer);
     }
