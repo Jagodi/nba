@@ -48,5 +48,4 @@ public class Team {
         players.remove(thePlayer);
         thePlayer.setTeam(null);
     }
-
 }

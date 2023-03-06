@@ -11,8 +11,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/teams")
 public class TeamController {
-
-
+    
     private final TeamService teamService;
 
     private final PlayerService playerService;
@@ -40,7 +39,7 @@ public class TeamController {
 
     @PutMapping("/{teamId}")
     public Team updateTeam(@PathVariable("teamId") int teamId, @RequestBody Team theTeam) {
-        Team team = teamService.getReferenceById(teamId);
+        Team team = teamService.findTeamById(teamId);
         team.setTeamName(theTeam.getTeamName());
         team.setCity(theTeam.getCity());
         team.setStadium(theTeam.getStadium());

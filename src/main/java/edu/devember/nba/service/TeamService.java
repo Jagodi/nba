@@ -47,8 +47,4 @@ public class TeamService {
         return teamRepository.existsById(teamId);
     }
 
-    public Team getReferenceById(int teamId) {
-        return teamRepository.getReferenceById(teamId);
-    }
-
 }
