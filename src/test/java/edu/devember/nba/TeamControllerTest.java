@@ -19,8 +19,7 @@ import java.time.LocalDate;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -72,8 +71,21 @@ class TeamControllerTest {
     }
 
     @Test
-    @DisplayName("Get One Team by Id")
+    @DisplayName("If DB is Empty")
     @Order(2)
+    void getEmptyListOfTeams() throws Exception {
+
+        jdbc.execute("delete from teams");
+
+        mockMvc.perform(get("/api/teams"))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.status", is(404)))
+                .andExpect(jsonPath("$.message", is("Team with this id wasn`t found")));
+    }
+
+    @Test
+    @DisplayName("Get One Team by Id")
+    @Order(3)
     void getOneTeamById() throws Exception {
         mockMvc.perform(get("/api/teams/{teamsId}", 13))
                 .andExpect(status().isOk())
@@ -87,7 +99,7 @@ class TeamControllerTest {
 
     @Test
     @DisplayName("If Team by Id Not Found")
-    @Order(3)
+    @Order(4)
     void getANonValidTeamById() throws Exception {
         mockMvc.perform(get("/api/teams/{teamId}", 4))
                 .andExpect(status().isNotFound())
@@ -97,7 +109,7 @@ class TeamControllerTest {
 
     @Test
     @DisplayName("Add One New Team")
-    @Order(4)
+    @Order(5)
     void addNewTeam() throws Exception {
         team.setTeamName("Philadelphia 76ers");
         team.setCity("Philadelphia");
@@ -117,7 +129,7 @@ class TeamControllerTest {
 
     @Test
     @DisplayName("Update a Team")
-    @Order(5)
+    @Order(6)
     void updateTeam() throws Exception {
         team.setTeamName("Chicago Bulls");
         team.setCity("Chicago");
@@ -136,7 +148,7 @@ class TeamControllerTest {
 
     @Test
     @DisplayName("If Not Found Team For Update")
-    @Order(6)
+    @Order(7)
     void updateANonValidTeamById() throws Exception {
         team.setTeamName("Chicago Bulls");
         team.setCity("Chicago");
@@ -155,7 +167,7 @@ class TeamControllerTest {
 
     @Test
     @DisplayName("Delete a Team")
-    @Order(7)
+    @Order(8)
     void deleteOneTeamById() throws Exception {
 
         mockMvc.perform(delete("/api/teams/{teamId}", 13))

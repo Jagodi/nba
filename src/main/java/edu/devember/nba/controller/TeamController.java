@@ -4,6 +4,11 @@ import edu.devember.nba.model.Player;
 import edu.devember.nba.model.Team;
 import edu.devember.nba.service.PlayerService;
 import edu.devember.nba.service.TeamService;
+import edu.devember.nba.util.NonValidJsonFormException;
+import jakarta.validation.Valid;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,7 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/teams")
 public class TeamController {
-    
+
     private final TeamService teamService;
 
     private final PlayerService playerService;
@@ -32,7 +37,8 @@ public class TeamController {
     }
 
     @PostMapping
-    public Team addTeam(@RequestBody Team theTeam) {
+    public Team addTeam(@RequestBody @Valid Team theTeam, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) throw new NonValidJsonFormException(bindingResult);
         teamService.save(theTeam);
         return theTeam;
     }

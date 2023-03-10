@@ -1,7 +1,9 @@
 package edu.devember.nba.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -22,12 +24,15 @@ public class Team {
     @Column(name = "id", nullable = false)
     private int id;
 
+    @NotEmpty(message = "teamName should not be empty")
     @Column(name = "team_name")
     private String teamName;
 
+    @NotEmpty(message = "city should not be empty")
     @Column(name = "city")
     private String city;
 
+    @NotEmpty(message = "stadium should not be empty")
     @Column(name = "stadium")
     private String stadium;
 
