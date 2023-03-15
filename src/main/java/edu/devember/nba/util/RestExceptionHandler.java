@@ -20,10 +20,26 @@ public class RestExceptionHandler {
     }
 
     @ExceptionHandler
+    private ResponseEntity<ErrorResponse> handException(TeamsNotFoundException exception) {
+        ErrorResponse error = new ErrorResponse();
+        error.setStatus(HttpStatus.NOT_FOUND.value());
+        error.setMessage("Oops. Teams list is empty!");
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler
     private ResponseEntity<ErrorResponse> handException(PlayerNotFoundException exception) {
         ErrorResponse error = new ErrorResponse();
         error.setStatus(HttpStatus.NOT_FOUND.value());
         error.setMessage("Player with this id wasn`t found");
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler
+    private ResponseEntity<ErrorResponse> handException(PlayersNotFoundException exception) {
+        ErrorResponse error = new ErrorResponse();
+        error.setStatus(HttpStatus.NOT_FOUND.value());
+        error.setMessage("Oops. Players list is empty!");
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
 

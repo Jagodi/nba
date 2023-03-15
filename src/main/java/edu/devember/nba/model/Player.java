@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -26,8 +27,8 @@ public class Player {
     @Column(name = "player_name")
     private String name;
 
-    @NotEmpty(message = "number should not be empty")
-    @Digits(fraction = 0, integer = 2)
+    @NotNull(message = "number should not be empty")
+    @Digits(fraction = 0, integer = 2, message = "number distance should be between 0-99")
     @Column(name = "player_number")
     private int number;
 
@@ -48,4 +49,14 @@ public class Player {
     @JsonBackReference
     private Team team;
 
+    @Override
+    public String toString() {
+        return "Player{" +
+                "name='" + name + '\'' +
+                ", number=" + number +
+                ", position='" + position + '\'' +
+                ", from='" + from + '\'' +
+                ", dateOfBirth=" + dateOfBirth +
+                '}';
+    }
 }

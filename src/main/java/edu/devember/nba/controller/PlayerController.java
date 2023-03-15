@@ -2,12 +2,15 @@ package edu.devember.nba.controller;
 
 import edu.devember.nba.model.Player;
 import edu.devember.nba.service.PlayerService;
+import edu.devember.nba.util.NonValidJsonFormException;
+import jakarta.validation.Valid;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/players")
 public class PlayerController {
 
     private final PlayerService playerService;
@@ -16,34 +19,37 @@ public class PlayerController {
         this.playerService = playerService;
     }
 
-    @GetMapping("/players")
+    @GetMapping
     public List<Player> getPlayers() {
-        return playerService.findAll();
+        return playerService.findAllPlayers();
     }
 
-    @GetMapping("/players/{playerId}")
+    @GetMapping("/{playerId}")
     public Player getPlayer(@PathVariable("playerId") int playerId) {
         return playerService.findPlayerById(playerId);
     }
 
-    @PostMapping("/players")
-    public Player addPlayer(@RequestBody Player thePlayer) {
-        return playerService.save(thePlayer);
+    @PostMapping
+    public Player addPlayer(@RequestBody @Valid Player thePlayer, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) throw new NonValidJsonFormException(bindingResult);
+        playerService.save(thePlayer);
+        return thePlayer;
     }
 
-    @PutMapping("/players/{playerId}")
+    @PutMapping("/{playerId}")
     public Player updatePlayer(@PathVariable("playerId") int playerId, @RequestBody Player thePlayer) {
 
-        Player player = playerService.getReferenceById(playerId);
-        player.setName(thePlayer.getName());
+        Player player = playerService.findPlayerById(playerId);
+        if (thePlayer.getName() != null) player.setName(thePlayer.getName());
         player.setNumber(thePlayer.getNumber());
-        player.setFrom(thePlayer.getFrom());
-        player.setPosition(thePlayer.getPosition());
-        player.setDateOfBirth(thePlayer.getDateOfBirth());
+        if (thePlayer.getFrom() != null) player.setFrom(thePlayer.getFrom());
+        if (thePlayer.getPosition() != null) player.setPosition(thePlayer.getPosition());
+        if (thePlayer.getDateOfBirth() != null) player.setDateOfBirth(thePlayer.getDateOfBirth());
+
         return playerService.save(player);
     }
 
-    @DeleteMapping("/players/{playerId}")
+    @DeleteMapping("/{playerId}")
     public String deletePlayer(@PathVariable("playerId") int playerId) {
 
         Player player = playerService.findPlayerById(playerId);

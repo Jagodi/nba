@@ -1,5 +1,6 @@
 package edu.devember.nba;
 
+import edu.devember.nba.model.Player;
 import edu.devember.nba.model.Team;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -18,5 +19,9 @@ public class NbaApplication {
     Team getTeam() {
         return new Team();
     }
+
+    @Bean
+    @Scope(value = "prototype")
+    Player getPLayer() {return new Player();}
 
 }

@@ -3,6 +3,7 @@ package edu.devember.nba.service;
 import edu.devember.nba.model.Player;
 import edu.devember.nba.repository.PlayerRepository;
 import edu.devember.nba.util.PlayerNotFoundException;
+import edu.devember.nba.util.PlayersNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,8 +20,10 @@ public class PlayerService {
         this.playerRepository = playerRepository;
     }
 
-    public List<Player> findAll() {
-        return playerRepository.findAll();
+    public List<Player> findAllPlayers() {
+        List<Player> players = playerRepository.findAll();
+        if (players.isEmpty()) throw new PlayersNotFoundException();
+        return players;
     }
 
     public Player findPlayerById(int theId) {
@@ -40,12 +43,9 @@ public class PlayerService {
     }
 
     public List<Player> findByTeamId(int theId) {
-        return playerRepository.findByTeamId(theId);
+        List<Player> players = playerRepository.findByTeamId(theId);
+        if (players.isEmpty()) throw new PlayersNotFoundException();
+        return players;
     }
-
-    public Player getReferenceById(int playerId) {
-        return playerRepository.getReferenceById(playerId);
-    }
-
 
 }

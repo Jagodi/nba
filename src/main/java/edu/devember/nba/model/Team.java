@@ -1,6 +1,5 @@
 package edu.devember.nba.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
@@ -25,7 +24,7 @@ public class Team {
     private int id;
 
     @NotEmpty(message = "teamName should not be empty")
-    @Column(name = "team_name")
+    @Column(name = "team_name", unique = true)
     private String teamName;
 
     @NotEmpty(message = "city should not be empty")
@@ -52,5 +51,16 @@ public class Team {
     public void removePlayer(Player thePlayer) {
         players.remove(thePlayer);
         thePlayer.setTeam(null);
+    }
+
+    @Override
+    public String toString() {
+        return "Team{" +
+                "teamName='" + teamName + '\'' +
+                ", city='" + city + '\'' +
+                ", stadium='" + stadium + '\'' +
+                ", founded=" + founded +
+                ", players=" + players +
+                '}';
     }
 }
